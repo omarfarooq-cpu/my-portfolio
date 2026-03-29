@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Omar Farooq | ECE Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family:'Roboto',sans-serif; margin:0; padding:0; background:#f9f9f9; color:#333; }
+header { background:#0a74da; color:white; padding:50px 20px; text-align:center; }
+header h1 { margin:0; font-size:2.8em; }
+header p { font-size:1.2em; margin-top:10px; }
+nav { text-align:center; background:#fff; padding:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+nav a { margin:0 15px; text-decoration:none; color:#0a74da; font-weight:bold; }
+section { padding:60px 20px; max-width:1000px; margin:auto; }
+h2 { text-align:center; color:#0a74da; margin-bottom:50px; }
+
+/* About */
+.button { display:inline-block; padding:10px 20px; margin-top:10px; background:#0a74da; color:white; text-decoration:none; border-radius:8px; }
+.button:hover { background:#0954a0; }
+
+/* Projects Flip Cards */
+.projects { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:30px; }
+.flip-card { background-color: transparent; perspective:1000px; }
+.flip-card-inner { position:relative; width:100%; height:350px; text-align:center; transition: transform 0.8s; transform-style: preserve-3d; }
+.flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back { position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.flip-card-front img { width:100%; height:100%; border-radius:12px; object-fit:cover; }
+.flip-card-back { background:#0a74da; color:white; transform:rotateY(180deg); display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; }
+.flip-card-back h3 { margin-bottom:15px; }
+.flip-card-back p { font-size:0.95em; }
+.flip-card-back a { margin-top:10px; display:inline-block; padding:8px 15px; background:white; color:#0a74da; border-radius:8px; text-decoration:none; font-weight:bold; }
+.flip-card-back a:hover { background:#e0e0e0; }
+
+/* Filter Buttons */
+.filter-buttons { text-align:center; margin-bottom:30px; }
+.filter-buttons button { padding:8px 15px; margin:5px; border:none; background:#0a74da; color:white; border-radius:8px; cursor:pointer; font-weight:bold; }
+.filter-buttons button:hover { background:#0954a0; }
+
+/* Skills */
+.skill-container { max-width:600px; margin:auto; }
+.skill-bar { background:#ddd; border-radius:20px; margin-bottom:15px; height:20px; }
+.skill-bar div { height:100%; background:#0a74da; border-radius:20px; width:0; transition: width 1s; }
+
+/* Timeline */
+.timeline { position: relative; max-width: 800px; margin:auto; }
+.timeline::after { content: ''; position: absolute; width: 6px; background: #0a74da; top:0; bottom:0; left:50%; margin-left:-3px; }
+.timeline-entry { padding: 20px 30px; position: relative; background:#f1f1f1; border-radius:8px; width:45%; }
+.timeline-entry.left { left:0; }
+.timeline-entry.right { left:55%; }
+.timeline-entry::after { content:''; position:absolute; width:20px; height:20px; right:-10px; background:#0a74da; border-radius:50%; top:20px; border:4px solid white; }
+.timeline-entry.right::after { left:-10px; }
+
+footer { text-align:center; padding:30px 20px; background:#333; color:white; }
+
+@media screen and (max-width:768px){
+  .timeline-entry, .timeline-entry.right, .timeline-entry.left { width:100%; left:0; margin-bottom:20px; }
+  .timeline::after { left:20px; }
+  .timeline-entry::after { left:10px; }
+}
+.dark-btn {
+  padding:5px 10px;
+  border:none;
+  background:#0a74da;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  background:#121212;
+  color:#ffffff;
+}
+
+.dark-mode header {
+  background:#1f1f1f;
+}
+
+.dark-mode nav {
+  background:#1f1f1f;
+}
+
+.dark-mode section {
+  background:#181818;
+}
+
+.dark-mode .featured-card,
+.dark-mode .flip-card-front,
+.dark-mode .internship-card {
+  background:#222;
+  color:white;
+}
+
+.dark-mode a {
+  color:#4da3ff;
+}
+html {
+  scroll-behavior: smooth;
+}
+.hidden {
+  opacity:0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.show {
+  opacity:1;
+  transform: translateY(0);
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.featured-card {
+  animation: float 4s ease-in-out infinite;
+}
+.featured-card:hover,
+.flip-card:hover,
+.internship-card:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+.button {
+  position: relative;
+  overflow: hidden;
+}
+
+.button::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  transition: width 0.5s, height 0.5s;
+}
+
+.button:active::after {
+  width: 200px;
+  height: 200px;
+}
+h1 {
+  background: linear-gradient(45deg, #0a74da, #00c6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tilt {
+  transition: transform 0.2s ease;
+  transform-style: preserve-3d;
+}
+.featured-card,
+.internship-card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
+}
+body {
+  background: linear-gradient(-45deg, #0a74da, #00c6ff, #1f1f1f, #000);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <h1>Mohammed Omar Farooq</h1>
+  <p><span id="typing"></span></p>
+</header>
+<!-- Navigation -->
+<nav>
+<a href="#about">About</a>
+<a href="#projects">Projects</a>
+<a href="#internship">Internship</a>
+<a href="#skills">Skills</a>
+<a href="#timeline">Timeline</a>
+<a href="#contact">Contact</a>
+<button onclick="toggleDarkMode()" class="dark-btn">🌙</button>
+</nav>
+
+<!-- About Section -->
+ 
+<section id="about" class="animate">
+<h2>About Me</h2>
+<img src="https://i.ibb.co/whWBbyqH/IMG-20251208-WA0016-3.jpg" alt="Mohammed Omar Farooq" style="width:200px; height:200px; border-radius:50%; display:block; margin: 30px auto;">
+<p>
+I’m <strong>Mohammed Omar Farooq</strong>, a first-year <strong>ECE student</strong> passionate about building hands-on electronics projects. I specialize in <strong>embedded systems, Arduino programming, and PCB design</strong>, turning ideas into real-world solutions.
+</p>
+<p>
+I’ve completed <strong>14+ projects</strong>, including a <strong>Bluetooth-controlled RC car</strong> and multiple PCB designs. I love experimenting with circuits, debugging, and learning by doing. Every project represents my curiosity, creativity, and drive to grow as an engineer.
+</p>
+<p style="text-align:center;">
+<a class="button" href="resume.pdf" download>Download My Resume</a>
+</p>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="animate">
+<h2>Projects</h2>
+
+<!-- Filter Buttons -->
+<div class="filter-buttons">
+<button onclick="filterProjects('all')">All</button>
+<button onclick="filterProjects('arduino')">Arduino</button>
+<button onclick="filterProjects('pcb')">PCB</button>
+<button onclick="filterProjects('embedded')">Embedded Systems</button>
+</div>
+
+<div class="projects tilt" >
+  <!-- Flip Card 1 -->
+  <div class="flip-card arduino">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="https://i.ibb.co/SDG9tG5N/IMG20260329201909.jpg" alt="Bluetooth RC Car">
+      </div>
+      <div class="flip-card-back">
+        <h3>Bluetooth RC Car</h3>
+        <p>Arduino + L298N motor driver. Controlled via Android app.</p>
+        <a href="https://github.com/yourusername/RC_Car" target="_blank">View Code</a>
+        <a href="https://www.tinkercad.com/things/3PTP1UfIMQA-rc-car" target="_blank">Simulation</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flip Card 2 -->
+  <div class="flip-card pcb">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="https://i.ibb.co/NdvRxrd2/image-1774607499860.jpg" alt="PCB Project 1">
+      </div>
+      <div class="flip-card-back">
+        <h3>Overvoltage Protection PCB</h3>
+        <p>Zener overvoltage protection circuit PCB.</p>
+        <a href="https://drive.google.com/pcb1" target="_blank">View PCB</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flip Card 3 -->
+  <div class="flip-card pcb">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="images/pcb2.jpg" alt="Embedded PCB">
+      </div>
+      <div class="flip-card-back">
+        <h3>Embedded System PCB</h3>
+        <p>PCB integrating microcontroller and sensors.</p>
+        <a href="https://drive.google.com/pcb2" target="_blank">View PCB</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+<section id="internship" class="animate">
+  <h2>Internship Experience</h2>
+
+  <div class="internship-container" >
+
+    <div class="internship-card tilt">
+      <h3>Embedded Systems Intern</h3>
+      <p class="company">InternPe</p>
+      <p class="duration">9th March 2026 – 6th April 2026</p>
+
+      <p class="desc">
+        Worked on real-time embedded systems projects using Arduino, sensors, and motor drivers. 
+        Focused on circuit design, debugging, and integrating hardware with software.
+      </p>
+
+      <div class="internship-details">
+        <div>
+          <h4>What I Did</h4>
+          <ul>
+            <li>Designed and tested electronic circuits</li>
+            <li>Worked with Arduino and motor drivers</li>
+            <li>Debugged real-world hardware issues</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>What I Learned</h4>
+          <ul>
+            <li>Practical embedded system design</li>
+            <li>Power distribution and troubleshooting</li>
+            <li>PCB design basics and implementation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="internship-buttons">
+        <a href="documents/K.MOHAMMED OMAR FAROOQ.pdf" target="_blank" class="button">
+          View Offer Letter
+        </a>
+        <a href="documents/K.MOHAMMED OMAR FAROOQ.pdf" download class="button outline">
+          Download PDF
+        </a>
+      </div>
+
+      <!-- PDF Preview -->
+      <div class="pdf-preview">
+        <iframe src="documents/K.MOHAMMED OMAR FAROOQ.pdf"></iframe>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+.internship-container {
+  display:flex;
+  justify-content:center;
+}
+
+.internship-card {
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+  max-width:800px;
+  width:100%;
+}
+
+.company {
+  font-weight:bold;
+  color:#0a74da;
+}
+
+.duration {
+  color:#777;
+  margin-bottom:15px;
+}
+
+.desc {
+  margin-bottom:20px;
+}
+
+.internship-details {
+  display:flex;
+  gap:30px;
+  flex-wrap:wrap;
+}
+
+.internship-details div {
+  flex:1;
+}
+
+.internship-details ul {
+  padding-left:20px;
+}
+
+.internship-buttons {
+  margin-top:20px;
+}
+
+.button {
+  display:inline-block;
+  padding:10px 20px;
+  margin-right:10px;
+  background:#0a74da;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.button:hover {
+  background:#0954a0;
+}
+
+.button.outline {
+  background:white;
+  color:#0a74da;
+  border:2px solid #0a74da;
+}
+
+.pdf-preview {
+  margin-top:25px;
+}
+
+.pdf-preview iframe {
+  width:100%;
+  height:400px;
+  border-radius:10px;
+  border:none;
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .internship-details {
+    flex-direction:column;
+  }
+}
+</style>
+
+<!-- Skills Section -->
+<section id="skills" class="animate">
+<h2>Skills & Tools</h2>
+<div class="skill-container">
+<p>Arduino</p><div class="skill-bar"><div data-width="80%"></div></div>
+<p>PCB Design (Kicad)</p><div class="skill-bar"><div data-width="70%"></div></div>
+<p>Thinkercad</p><div class="skill-bar"><div data-width="90%"></div></div>
+<p>Embedded Systems</p><div class="skill-bar"><div data-width="75%"></div></div>
+</div>
+</section>
+
+<!-- Timeline Section -->
+<section id="timeline" class="animate">
+<h2>Learning Journey</h2>
+<div class="timeline">
+  <div class="timeline-entry left"><h3>Started with Thinkercad Circuits</h3><p>Learned basic electronics and breadboard design.</p></div>
+  <div class="timeline-entry right"><h3>Arduino & Motor Drivers</h3><p>Built first RC car and learned motor control.</p></div>
+  <div class="timeline-entry left"><h3>Bluetooth RC Car Project</h3><p>Mobile-controlled RC car with embedded integration.</p></div>
+  <div class="timeline-entry right"><h3>PCB Projects</h3><p>Designed and fabricated 3 PCBs using Kicad.</p></div>
+</div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="animate">
+<h2>Contact Me</h2>
+<p>Email: <a href="mailto:omarfarooqf2345@gmail.com">omarfarooqf2345@gmail.com</a></p>
+<p>LinkedIn: <a href="https://www.linkedin.com/in/mohamed-omar-farooq-693630300?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">linkedin.com/in/mohamed-omar-farooq-693630300</a></p>
+<p>GitHub: <a href="https://github.com/omarfarooq-cpu" target="_blank">github.com/omarfarooq-cpu</a></p>
+<a class="button" href="resume.pdf" download>Download Resume</a>
+</section>
+
+<!-- Footer -->
+<footer>
+&copy; 2026 Mohammed Omar Farooq | All Rights Reserved
+</footer>
+
+<script>
+// Filter projects
+function filterProjects(category){
+  const projects = document.querySelectorAll('.flip-card');
+  projects.forEach(p => {
+    if(category==='all' || p.classList.contains(category)) p.style.display='block';
+    else p.style.display='none';
+  });
+}
+
+// Animate skill bars on scroll
+window.addEventListener('scroll', function(){
+  const bars = document.querySelectorAll('.skill-bar div');
+  const section = document.getElementById('skills');
+  const sectionTop = section.getBoundingClientRect().top;
+  const screenHeight = window.innerHeight;
+  if(sectionTop < screenHeight - 100){
+    bars.forEach(bar => { bar.style.width = bar.getAttribute('data-width'); });
+  }
+});
+</script>
+<script>
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+}
+</script>
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+  });
+});
+
+document.querySelectorAll('section').forEach(sec => {
+  sec.classList.add('hidden');
+  observer.observe(sec);
+});
+</script>
+<script>
+const text = "ECE Student | Embedded Systems | PCB Designer";
+let i = 0;
+
+function typingEffect() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typingEffect, 50);
+  }
+}
+
+typingEffect();
+</script>
+<script>
+const Observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, index) => {
+    if(entry.isIntersecting){
+      setTimeout(() => {
+        entry.target.classList.add('show');
+      }, index * 150);
+    }
+  });
+});
+
+document.querySelectorAll('.animate').forEach(el => {
+  observer.observe(el);
+});
+const cards = document.querySelectorAll('.tilt');
+
+cards.forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = -(y - centerY) / 10;
+    const rotateY = (x - centerX) / 10;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+  });
+});
+</script>
+<script>
+const cursor = document.createElement("div");
+cursor.style.position = "fixed";
+cursor.style.width = "20px";
+cursor.style.height = "20px";
+cursor.style.borderRadius = "50%";
+cursor.style.background = "rgba(10,116,218,0.5)";
+cursor.style.pointerEvents = "none";
+cursor.style.transform = "translate(-50%, -50%)";
+document.body.appendChild(cursor);
+
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
+</script>
+</body>
+</html>
